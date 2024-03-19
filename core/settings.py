@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'django_countries',
     'Profile',
+    'Uav',
     
 ]
 
