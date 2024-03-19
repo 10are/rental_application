@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,6 +122,40 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+JAZZMIN_SETTINGS = {
+    "site_title": "Uav Rentel",
+    "site_header": "Uav Rentel",
+    "welcome_sign": "Hoş geldiniz!",
+    "search_model": "auth.User",
+    "show_sidebar": True,
+    "login_logo": None,
+    "site_brand": "Uav Rentel",
+    "navigation_expanded": True,
+    "copyright": "Uav Rentel Ltd",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",  
+    "navbar_small_text": False,
+    "body_small_text": True,
+    "brand_small_text": True,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-primary",
+    "navbar": "navbar-ligth",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "main_nav_link_color": "sidebar-dark-primary",
+    "head_font": None,
+    "head_bg": None,
+    "head_color": None,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
