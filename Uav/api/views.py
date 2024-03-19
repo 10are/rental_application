@@ -7,6 +7,7 @@ class UAVViewSet(viewsets.ModelViewSet):
     serializer_class = UAVSerializer
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action in ['list', 'retrieve']:
+            return [permissions.AllowAny()]
+        else:
             return [permissions.IsAdminUser()]
-        return [permissions.AllowAny()]
