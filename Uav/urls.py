@@ -1,7 +1,10 @@
-from django.urls import path
-from .views import UAVListCreateAPIView, UAVDetailAPIView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .api.views import UAVViewSet
+
+router = DefaultRouter()
+router.register(r'uavs', UAVViewSet, basename='uav')
 
 urlpatterns = [
-    path('uavs/', UAVListCreateAPIView.as_view(), name='uav-list-create'),
-    path('uavs/<int:pk>/', UAVDetailAPIView.as_view(), name='uav-detail'),
+    path('', include(router.urls)),
 ]

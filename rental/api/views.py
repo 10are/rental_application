@@ -1,6 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from .models import Rental
+from ..models import Rental
 from .serializers import RentalSerializer
 from Uav.models import UAV
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Rental
+from ..models import Rental
 from Uav.models import UAV
 
 class RentalSerializer(serializers.ModelSerializer):
