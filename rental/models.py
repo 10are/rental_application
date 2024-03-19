@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from Uav.models import UAV
 from django.core.exceptions import ValidationError
-
+from django.utils import timezone
 class Rental(models.Model):
     uav = models.ForeignKey(UAV, on_delete=models.CASCADE, verbose_name="UAV", related_name="rentals")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Kullanıcı", related_name="rentals")
@@ -10,10 +10,21 @@ class Rental(models.Model):
     end_date = models.DateTimeField(verbose_name="Bitiş Tarihi")
 
     def save(self, *args, **kwargs):
-        if self.pk is None: 
+        if self.pk is None:  
             if not self.uav.is_available:
                 raise ValidationError(f"{self.uav.model_name} şu anda mevcut değil.")
-            else:
-                self.uav.is_available = False  
+            if self.start_date < timezone.now():
+                raise ValidationError("Başlangıç tarihi günümüzden geri olamaz.")
+            if self.end_date <= self.start_date:
+                raise ValidationError("Bitiş tarihi, başlangıç tarihinden önce olamaz.")
+                
+            self.uav.is_available = False 
+            self.uav.save()
+
+        else:
+            if self.end_date <= timezone.now():
+                self.uav.is_available = True
                 self.uav.save()
+
+            
         super().save(*args, **kwargs)
