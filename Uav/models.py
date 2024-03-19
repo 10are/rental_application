@@ -1,4 +1,5 @@
 from django.db import models
+from payment.models import Payment
 
 class CommunicationTech(models.TextChoices):
     WIFI = 'wifi', 'Wi-Fi'
@@ -23,6 +24,7 @@ class UAV(models.Model):
     control_system = models.CharField(max_length=100, choices=ControlSystem.choices, verbose_name="Kontrol Sistemi")
     applications = models.TextField(verbose_name="Uygulama Alanları")
     onboard_computers = models.IntegerField(verbose_name="Yüklü Bilgisayar Sayısı", null=True, blank=True)
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, verbose_name="Ödeme", related_name="uavs", null=True, blank=True)
 
     def __str__(self):
         return self.model_name

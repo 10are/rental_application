@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django_countries',
     'Profile',
     'Uav',
+    'payment',
     
 ]
 
