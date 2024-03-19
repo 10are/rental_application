@@ -25,6 +25,7 @@ class UAV(models.Model):
     applications = models.TextField(verbose_name="Uygulama Alanları")
     onboard_computers = models.IntegerField(verbose_name="Yüklü Bilgisayar Sayısı", null=True, blank=True)
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE, verbose_name="Ödeme", related_name="uavs", null=True, blank=True)
+    is_available = models.BooleanField(default=True, verbose_name="Mevcut")
 
     def __str__(self):
         return self.model_name

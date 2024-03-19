@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'Profile',
     'Uav',
     'payment',
+    'rental',
     
 ]
 
