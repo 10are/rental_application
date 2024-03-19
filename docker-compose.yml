@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  web:
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    build: .
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    restart: unless-stopped
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
