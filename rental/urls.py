@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .api.views import RentalViewSet
 
 router = DefaultRouter()
-router.register(r'rentals', RentalViewSet, basename='rental')
+router.register(r'', RentalViewSet, basename='rental')
 
 urlpatterns = [
     path('', include(router.urls)),

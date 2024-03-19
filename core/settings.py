@@ -71,7 +71,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-
+ALLOWED_HOSTS = ['*']
 ROOT_URLCONF = 'core.urls'
 
 REST_FRAMEWORK = {
