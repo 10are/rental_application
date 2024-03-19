@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth',
     'dj_rest_auth.registration',
+    'django_countries',
+    'Profile',
     
 ]
 
