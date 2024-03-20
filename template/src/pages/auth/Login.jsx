@@ -26,7 +26,9 @@ const Login = () => {
         email,
         password
       });
-      console.log(response.data);
+      const token = response.data.token; // Oturum açma işleminden dönen token
+      localStorage.setItem('token', token); // Token'i sakla
+      console.log('Login successful:', response.data);
       navigate('/');
     } catch (error) {
       console.error('Login failed', error);
