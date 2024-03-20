@@ -14,5 +14,4 @@ class UAVFilter(django_filters.FilterSet):
             'payload_capacity': ['gt', 'lt'],
             'endurance': ['gt', 'lt'],
             'control_system': ['exact'],
-            'is_available': ['exact'],
         }

@@ -10,4 +10,4 @@ class RentalSerializer(serializers.ModelSerializer):
         fields = '__all__'  
 
     def get_uav_model_name(self, obj):
-        return obj.UAV.model_name
+        return obj.uav.model_name
