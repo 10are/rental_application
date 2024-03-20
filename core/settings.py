@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'rental',
     'django_filters',
     'corsheaders',
-    'drf_yasg',
     
 ]
 

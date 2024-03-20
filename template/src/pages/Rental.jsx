@@ -6,6 +6,7 @@ const Rental = () => {
   const [selectedUavId, setSelectedUavId] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const fetchUavs = async () => {
@@ -66,6 +67,7 @@ const Rental = () => {
           Authorization: `Token ${token}`,
         }
       });
+      setSuccessMessage('Kiralama başarılı!');
       console.log('Rental successful:', response.data);
     } catch (error) {
       console.error('Rental failed', error);
@@ -73,12 +75,12 @@ const Rental = () => {
   };
 
   return (
-    <div>
-      <h2>UAV Kiralama</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="uavSelect">UAV Seçin:</label>
-          <select id="uavSelect" onChange={handleSelectUav} required>
+    <div className="container mx-auto mt-8">
+      <h2 className="text-2xl mb-4">UAV Kiralama</h2>
+      <form onSubmit={handleSubmit} className="w-full max-w-sm">
+        <div className="mb-4">
+          <label htmlFor="uavSelect" className="block mb-2">UAV Seçin:</label>
+          <select id="uavSelect" onChange={handleSelectUav} required className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500">
             <option value="">UAV Seçin</option>
             {uavs.map((uav) => (
               <option key={uav.id} value={uav.id}>
@@ -87,28 +89,33 @@ const Rental = () => {
             ))}
           </select>
         </div>
-        <div>
-          <label htmlFor="startDate">Başlangıç Tarihi:</label>
+        <div className="mb-4">
+          <label htmlFor="startDate" className="block mb-2">Başlangıç Tarihi:</label>
           <input
             type="date"
             id="startDate"
             value={startDate}
             onChange={handleStartDateChange}
             required
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
           />
         </div>
-        <div>
-          <label htmlFor="endDate">Bitiş Tarihi:</label>
+        <div className="mb-4">
+          <label htmlFor="endDate" className="block mb-2">Bitiş Tarihi:</label>
           <input
             type="date"
             id="endDate"
             value={endDate}
             onChange={handleEndDateChange}
             required
+            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500"
           />
         </div>
-        <button type="submit">Kirala</button>
+        <button type="submit" className="w-full bg-indigo-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Kirala</button>
       </form>
+      {successMessage && (
+        <div className="mt-4 p-4 bg-green-200 text-green-800 rounded">{successMessage}</div>
+      )}
     </div>
   );
 };
