@@ -29,7 +29,6 @@ urlpatterns = [
     path('auth/register/', include('dj_rest_auth.registration.urls')),
     path('dj-rest-auth/user/', include('dj_rest_auth.urls')),
     path('payment/', include('payment.urls')),
-    path('profile/', include('Profile.urls')),
     path('rental/', include('rental.urls')),
     path('uav/', include('Uav.urls')),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

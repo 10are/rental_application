@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'allauth',
     'dj_rest_auth.registration',
     'django_countries',
-    'Profile',
     'Uav',
     'payment',
     'rental',
