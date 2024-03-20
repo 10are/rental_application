@@ -1,98 +1,116 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import RentalForm from './RentalForm'; 
 
-const UAVList = () => {
-  const [uavData, setUavData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+const Rental = () => {
+  const [uavs, setUavs] = useState([]);
+  const [selectedUavId, setSelectedUavId] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUavs = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/uav/?page=${currentPage}`);
-        const filteredUavData = response.data.results.filter(uav => uav.is_available);
-        setUavData(filteredUavData);
+        const response = await axios.get('http://127.0.0.1:8000/uav/');
+        setUavs(response.data.results);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('UAV fetch failed', error);
       }
     };
-  
-    fetchData();
-  }, [currentPage]);
-  
+    fetchUavs();
+  }, []);
 
-  const handleNextPage = () => {
-    setCurrentPage(prevPage => prevPage + 1);
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const token = localStorage.getItem('key');
+      if (token) {
+        try {
+          const response = await axios.get('http://127.0.0.1:8000/dj-rest-auth/user/user/', {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          });
+          localStorage.setItem('userId', response.data.pk); 
+        } catch (error) {
+          console.error('Kullanıcı bilgileri alınamadı', error);
+        }
+      }
+    };
+    
+    fetchUserInfo();
+  }, []);
+
+  const handleSelectUav = (event) => {
+    setSelectedUavId(event.target.value);
   };
 
-  const handlePrevPage = () => {
-    setCurrentPage(prevPage => prevPage - 1);
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const token = localStorage.getItem('key');
+      const userId = localStorage.getItem('userId'); 
+      const response = await axios.post('http://127.0.0.1:8000/rental/', {
+        start_date: startDate,
+        end_date: endDate,
+        uav: selectedUavId,
+        user: userId, 
+      }, {
+        headers: {
+          Authorization: `Token ${token}`,
+        }
+      });
+      console.log('Rental successful:', response.data);
+    } catch (error) {
+      console.error('Rental failed', error);
+    }
   };
 
   return (
-    <div className="container mx-auto">
-      <h1 className="text-2xl font-bold mb-4">UAV List</h1>
-      <div className="overflow-x-auto">
-        <table className="table-auto border-collapse border">
-          <thead>
-            <tr>
-              <th className="border px-4 py-2">ID</th>
-              <th className="border px-4 py-2">Model Name</th>
-              <th className="border px-4 py-2">Max Flight Time</th>
-              <th className="border px-4 py-2">Weight</th>
-              <th className="border px-4 py-2">Communication Tech</th>
-              <th className="border px-4 py-2">Operational Altitude</th>
-              <th className="border px-4 py-2">Max Speed</th>
-              <th className="border px-4 py-2">Payload Capacity</th>
-              <th className="border px-4 py-2">Endurance</th>
-              <th className="border px-4 py-2">Control System</th>
-              <th className="border px-4 py-2">Applications</th>
-              <th className="border px-4 py-2">Onboard Computers</th>
-              <th className="border px-4 py-2">Payment</th>
-              <th className="border px-4 py-2">Actions</th> 
-            </tr>
-          </thead>
-          <tbody>
-            {uavData.map(uav => (
-              <tr key={uav.id}>
-                <td className="border px-4 py-2">{uav.id}</td>
-                <td className="border px-4 py-2">{uav.model_name}</td>
-                <td className="border px-4 py-2">{uav.max_flight_time}</td>
-                <td className="border px-4 py-2">{uav.weight}</td>
-                <td className="border px-4 py-2">{uav.communication_tech}</td>
-                <td className="border px-4 py-2">{uav.operational_altitude}</td>
-                <td className="border px-4 py-2">{uav.max_speed}</td>
-                <td className="border px-4 py-2">{uav.payload_capacity}</td>
-                <td className="border px-4 py-2">{uav.endurance}</td>
-                <td className="border px-4 py-2">{uav.control_system}</td>
-                <td className="border px-4 py-2">{uav.applications}</td>
-                <td className="border px-4 py-2">{uav.onboard_computers}</td>
-                <td className="border px-4 py-2">{uav.payment}</td>
-                <td className="border px-4 py-2">
-                  <RentalForm uavId={uav.id} />
-                </td>
-              </tr>
+    <div>
+      <h2>UAV Kiralama</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="uavSelect">UAV Seçin:</label>
+          <select id="uavSelect" onChange={handleSelectUav} required>
+            <option value="">UAV Seçin</option>
+            {uavs.map((uav) => (
+              <option key={uav.id} value={uav.id}>
+                {uav.model_name}
+              </option>
             ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="mt-4">
-        <button
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded mr-2"
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNextPage}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Next
-        </button>
-      </div>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="startDate">Başlangıç Tarihi:</label>
+          <input
+            type="date"
+            id="startDate"
+            value={startDate}
+            onChange={handleStartDateChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="endDate">Bitiş Tarihi:</label>
+          <input
+            type="date"
+            id="endDate"
+            value={endDate}
+            onChange={handleEndDateChange}
+            required
+          />
+        </div>
+        <button type="submit">Kirala</button>
+      </form>
     </div>
   );
 };
 
-export default UAVList;
+export default Rental;

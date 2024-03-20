@@ -38,6 +38,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/register/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/user/', include('dj_rest_auth.urls')),
     path('payment/', include('payment.urls')),
     path('profile/', include('Profile.urls')),
     path('rental/', include('rental.urls')),
