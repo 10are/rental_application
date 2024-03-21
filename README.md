@@ -21,7 +21,7 @@ This project facilitates a rental service for drones and UAVs (Unmanned Aerial V
 - 
 ## Database Information
 
-This project's database information is public. We've utilized the free PostgreSQL service provided by [Render.com](https://render.com) for this purpose.
+The database information for this project is public. I've utilized the free PostgreSQL service provided by [Render.com](https://render.com) for this purpose.
 
 
 
