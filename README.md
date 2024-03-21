@@ -18,7 +18,7 @@ This project facilitates a rental service for drones and UAVs (Unmanned Aerial V
 - **Admin Interface:** jazzmin
 - **Frontend:** React
 - **Database:** PostgreSQL
-- 
+
 ## Database Information
 
 The database information for this project is public. I've utilized the free PostgreSQL service provided by [Render.com](https://render.com) for this purpose.
